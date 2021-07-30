@@ -64,7 +64,13 @@ public class PushNotification implements IPushNotification {
     @Override
     public void onReceived() throws InvalidNotificationException {
         if (!mAppLifecycleFacade.isAppVisible()) {
-            postNotification(null);
+            // Do not auto notify data only notifications or empty notifications
+            String title = mNotificationProps.getTitle();
+            String body = mNotificationProps.getBody();
+
+            if((title != null && !title.isEmpty()) || (body != null && !body.isEmpty())){
+                postNotification(null);
+            }
             notifyReceivedBackgroundToJS();
         } else {
             notifyReceivedToJS();
