@@ -6,13 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
+import android.os.Build;
 
 public class NotificationIntentAdapter {
     private static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
 
     public static PendingIntent createPendingNotificationIntent(Context appContext, Intent intent, PushNotificationProps notification) {
         intent.putExtra(PUSH_NOTIFICATION_EXTRA_NAME, notification.asBundle());
-        return PendingIntent.getService(appContext, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S){
+            return PendingIntent.getService(appContext, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_MUTABLE);
+        }else{
+            return PendingIntent.getService(appContext, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
+        }
     }
 
     public static Bundle extractPendingNotificationDataFromIntent(Intent intent) {
