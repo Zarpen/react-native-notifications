@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.wix.reactnativenotifications.core.notification.PushNotificationProps;
+import android.os.Build;
 
 public class NotificationIntentAdapter {
     private static final String PUSH_NOTIFICATION_EXTRA_NAME = "pushNotification";
