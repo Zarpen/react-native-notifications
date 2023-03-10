@@ -1,3 +1,4 @@
+#import "RNEventEmitter.h"
 #import "RNNotificationCenter.h"
 #import "RCTConvert+RNNotifications.h"
 
@@ -39,6 +40,9 @@
                     });
                 }
             }];
+        }
+        if (!error && !granted) {
+          [RNEventEmitter sendEvent:RNRegistrationDenied body:nil];
         }
     }];
 }
@@ -109,6 +113,8 @@
             @"sound": [NSNumber numberWithBool:settings.soundSetting == UNNotificationSettingEnabled],
             @"alert": [NSNumber numberWithBool:settings.alertSetting == UNNotificationSettingEnabled],
             @"carPlay": [NSNumber numberWithBool:settings.carPlaySetting == UNNotificationSettingEnabled],
+            @"notificationCenter": [NSNumber numberWithBool:settings.notificationCenterSetting == UNNotificationSettingEnabled],
+            @"lockScreen": [NSNumber numberWithBool:settings.lockScreenSetting == UNNotificationSettingEnabled],
         }];
         if (@available(iOS 12.0, *)) {
             allSettings[@"criticalAlert"] = [NSNumber numberWithBool:settings.criticalAlertSetting == UNNotificationSettingEnabled];
